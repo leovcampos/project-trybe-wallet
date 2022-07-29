@@ -16,7 +16,7 @@ const wallet = (state = INITIAL_STATE, { type, payload, id }) => {
   case SAVE_EXPENSE:
     return {
       ...state,
-      xpenses: [...state.expenses, payload],
+      expenses: [...state.expenses, payload],
       idCounter: state.idCounter + 1,
     };
   case REMOVE_EXPENSE:
