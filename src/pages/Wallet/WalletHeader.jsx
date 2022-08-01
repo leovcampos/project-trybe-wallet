@@ -9,15 +9,6 @@ import Header from '../../components/Header';
 import Span from '../../components/FormComponents/Span';
 
 class WalletHeader extends React.Component {
-  // totalExpenses = () => {
-  //   const { expenses } = this.props;
-  //   expenses.reduce((acc, {
-  //     value,
-  //     currency,
-  //     exchange,
-  //   }) => acc + (Number(exchange[currency].ask) * value), 0);
-  // };
-
   render() {
     const { email } = this.props;
     return (
@@ -36,9 +27,9 @@ class WalletHeader extends React.Component {
             Despesa Total: R$
             {' '}
             <Span data-testid="total-field">
-              0
+              00,00
             </Span>
-            <Span data-testid="header-currency-field">BRL</Span>
+            <Span data-testid="header-currency-field"> BRL</Span>
           </InfoText>
         </HeaderInfo>
       </Header>
@@ -48,15 +39,12 @@ class WalletHeader extends React.Component {
 
 WalletHeader.propTypes = {
   email: PropTypes.string.isRequired,
-  // expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = ({
   user: { email },
-  wallet: { expenses },
 }) => ({
   email,
-  expenses,
 });
 
 export default connect(mapStateToProps, null)(WalletHeader);
