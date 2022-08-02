@@ -28,6 +28,11 @@ class WalletHeader extends React.Component {
             {' '}
             <Span data-testid="total-field">
               00,00
+              {
+                //criar um reduce com todas as despesas
+                //converter o valor digitado com a cotação da moeda escolhida
+                //acc + valor * valorMoeda
+              }
             </Span>
             <Span data-testid="header-currency-field"> BRL</Span>
           </InfoText>

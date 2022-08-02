@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCurrencies } from '../../redux/actions';
+import { addCurrencies, getExpense } from '../../redux/actions';
 import Form from './Form';
 import Button from '../FormComponents/Button';
 import Input from '../FormComponents/Input';
@@ -10,12 +10,16 @@ import Select from '../FormComponents/Select';
 import Span from '../FormComponents/Span';
 
 class WalletForm extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     coins: [],
-  //   };
-  // }
+  constructor() {
+    super();
+    this.state = {
+      value: '',
+      description: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
+    };
+  }
 
   componentDidMount() {
     const fetchCoins = async () => {
@@ -28,25 +32,54 @@ class WalletForm extends Component {
     fetchCoins();
   }
 
+  handleChange = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleSubmit = () => {
+    console.log(this.state);
+    const { value, description, currency, method, tag } = this.state;
+    const { idCounter, newExpense } = this.props;
+
+    const expenses = {
+      id: idCounter,
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    };
+
+    newExpense(expenses);
+  }
+
   render() {
+    const { value, description, currency, method, tag } = this.state;
     const { currencies } = this.props;
     return (
       <Form>
         <Label>
-          <Span>Valor:</Span>
+          <Span>Value:</Span>
           <Input
             data-testid="value-input"
             id="value"
             name="value"
             width="100px"
+            value={ value }
+            onChange={ this.handleChange }
           />
         </Label>
         <Label>
-          <Span>Moeda</Span>
+          <Span>Currency</Span>
           <Select
             data-testid="currency-input"
             id="currency"
             name="currency"
+            onChange={ this.handleChange }
+            value={ currency }
           >
             {
               currencies.map((coin) => (
@@ -61,12 +94,14 @@ class WalletForm extends Component {
           </Select>
         </Label>
         <Label htmlFor="method">
-          <Span>Método de Pgto</Span>
+          <Span>Payment Metod</Span>
           <Select
             data-testid="method-input"
             id="method"
             name="method"
             width="150px"
+            onChange={ this.handleChange }
+            value={ method }
           >
             <option value="Dinheiro">Dinheiro</option>
             <option value="Cartão de crédito">Cartão de crédito</option>
@@ -79,6 +114,8 @@ class WalletForm extends Component {
             data-testid="tag-input"
             id="tag"
             name="tag"
+            onChange={ this.handleChange }
+            value={ tag }
           >
             <option value="Alimentação">Alimentação</option>
             <option value="Lazer">Lazer</option>
@@ -88,18 +125,21 @@ class WalletForm extends Component {
           </Select>
         </Label>
         <Label htmlFor="description">
-          <Span>Descrição</Span>
+          <Span>Description</Span>
           <Input
             data-testid="description-input"
             id="description"
             name="description"
             maxLength="30"
+            onChange={ this.handleChange }
+            value={ description }
           />
         </Label>
         <Button
           backColor="#f5f5f5"
           color="black"
-          type="submit"
+          type="button"
+          onClick={ this.handleSubmit }
         >
           Adicionar despesa
         </Button>
@@ -112,11 +152,12 @@ WalletForm.propTypes = {
   // idCounter: PropTypes.number.isRequired,
   saveCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // saveExpense: PropTypes.func.isRequired,
+  idCounter: PropTypes.number.isRequired,
+  newExpense: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  // saveExpense: (payload) => dispatch(getExpense(payload)),
+  newExpense: (payload) => dispatch(getExpense(payload)),
   saveCurrencies: (payload) => dispatch(addCurrencies(payload)),
 });
 

@@ -26,10 +26,10 @@ export const userLog = (payload) => ({
 export const getExpense = (expenseObj) => async (dispatch) => {
   try {
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
-    const exchange = await response.json();
+    const exchangeRates = await response.json();
     const newExpense = {
       ...expenseObj,
-      exchange,
+      exchangeRates,
     };
     dispatch(saveExpense(newExpense));
   } catch (error) {

@@ -1,0 +1,14 @@
+table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+thead {
+  background-color: rgb(53, 38, 25);
+  color: white;
+}
+
+th {
+  font-size: 12px;
+  padding: 5px;
+}
