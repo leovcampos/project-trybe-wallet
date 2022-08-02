@@ -9,13 +9,15 @@ class Expenses extends Component {
       <table>
         <thead>
           <tr>
-            <th>id</th>
-            <th>value</th>
-            <th>description</th>
-            <th>currency</th>
-            <th>method</th>
-            <th>tag</th>
-            <th>exchangeRates</th>
+            <th>Descrição</th>
+            <th>Tag</th>
+            <th>Método de pagamento</th>
+            <th>Valor</th>
+            <th>Moeda</th>
+            <th>Câmbio utilizado</th>
+            <th>Valor convertido</th>
+            <th>Moeda de conversão</th>
+            <th>Editar/Excluir</th>
           </tr>
         </thead>
         <tbody />
