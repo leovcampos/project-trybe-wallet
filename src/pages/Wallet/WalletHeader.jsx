@@ -10,7 +10,14 @@ import Span from '../../components/FormComponents/Span';
 
 class WalletHeader extends React.Component {
   render() {
-    const { email } = this.props;
+    const { email, expenses } = this.props;
+    const totalExpenses = expenses
+      .reduce((acc, {
+        value,
+        currency,
+        exchangeRates,
+      }) => acc + (Number(exchangeRates[currency].ask) * value), 0);
+    const hundred = 100;
     return (
       <Header>
         <Image
@@ -27,12 +34,7 @@ class WalletHeader extends React.Component {
             Despesa Total: R$
             {' '}
             <Span data-testid="total-field">
-              00,00
-              {
-                //criar um reduce com todas as despesas
-                //converter o valor digitado com a cotação da moeda escolhida
-                //acc + valor * valorMoeda
-              }
+              { (Math.floor(Number(totalExpenses * hundred)) / hundred).toFixed(2) }
             </Span>
             <Span data-testid="header-currency-field"> BRL</Span>
           </InfoText>
@@ -44,12 +46,15 @@ class WalletHeader extends React.Component {
 
 WalletHeader.propTypes = {
   email: PropTypes.string.isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapStateToProps = ({
   user: { email },
+  wallet: { expenses },
 }) => ({
   email,
+  expenses,
 });
 
 export default connect(mapStateToProps, null)(WalletHeader);

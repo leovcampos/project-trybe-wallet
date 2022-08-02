@@ -12,13 +12,16 @@ import Span from '../FormComponents/Span';
 class WalletForm extends Component {
   constructor() {
     super();
-    this.state = {
+
+    this.expenseObj = {
       value: '',
       description: '',
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
     };
+
+    this.state = this.expenseObj;
   }
 
   componentDidMount() {
@@ -40,7 +43,6 @@ class WalletForm extends Component {
   }
 
   handleSubmit = () => {
-    console.log(this.state);
     const { value, description, currency, method, tag } = this.state;
     const { idCounter, newExpense } = this.props;
 
@@ -54,6 +56,8 @@ class WalletForm extends Component {
     };
 
     newExpense(expenses);
+
+    this.setState(this.expenseObj);
   }
 
   render() {
