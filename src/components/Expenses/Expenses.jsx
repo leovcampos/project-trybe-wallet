@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import './Expenses.css';
 import { connect } from 'react-redux';
-import { removeExpense } from '../../redux/actions';
+import Button from '../FormComponents/Button';
+import { removeExpense, editExpenses } from '../../redux/actions';
 
 class Expenses extends Component {
   render() {
-    const { expenses, delExpense } = this.props;
+    const { expenses, delExpense, editButton } = this.props;
     return (
       <table>
         <thead>
@@ -47,13 +48,24 @@ class Expenses extends Component {
                 </td>
                 <td>Real</td>
                 <td>
-                  <button
+                  <Button
+                    type="button"
+                    onClick={ () => editButton(id) }
+                    data-testid="edit-btn"
+                    backColor="#19d175"
+                    color="black"
+                  >
+                    Edit
+                  </Button>
+                  <Button
                     type="button"
                     onClick={ () => delExpense(id) }
                     data-testid="delete-btn"
+                    backColor="rgb(79, 00, 10)"
+                    color="white"
                   >
-                    Deletar
-                  </button>
+                    Delet
+                  </Button>
                 </td>
               </tr>
             ))
@@ -67,6 +79,7 @@ class Expenses extends Component {
 Expenses.propTypes = {
   expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   delExpense: PropTypes.func.isRequired,
+  editButton: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ wallet: { expenses } }) => ({
@@ -75,6 +88,7 @@ const mapStateToProps = ({ wallet: { expenses } }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   delExpense: (id) => dispatch(removeExpense(id)),
+  editButton: (id) => dispatch(editExpenses(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Expenses);

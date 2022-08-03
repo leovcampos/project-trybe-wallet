@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCurrencies, getExpense } from '../../redux/actions';
+import { addCurrencies, getExpense, editFinaly } from '../../redux/actions';
 import Form from './Form';
 import Button from '../FormComponents/Button';
 import Input from '../FormComponents/Input';
@@ -19,6 +19,7 @@ class WalletForm extends Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
+      botaoDinamico: 'Adicionar despesa',
     };
 
     this.state = this.expenseObj;
@@ -35,6 +36,24 @@ class WalletForm extends Component {
     fetchCoins();
   }
 
+  componentDidUpdate(prevProp) {
+    const { idToEdit } = this.props;
+    if (prevProp.idToEdit !== idToEdit) this.editState(idToEdit);
+  }
+
+  editState = (id) => {
+    const { expenses } = this.props;
+    console.log(expenses[id]);
+    this.setState({
+      value: expenses[id].value,
+      description: expenses[id].description,
+      currency: expenses[id].currency,
+      method: expenses[id].method,
+      tag: expenses[id].tag,
+      botaoDinamico: 'Editar despesa',
+    });
+  }
+
   handleChange = ({ target }) => {
     const { name, value } = target;
     this.setState({
@@ -43,8 +62,8 @@ class WalletForm extends Component {
   }
 
   handleSubmit = () => {
-    const { value, description, currency, method, tag } = this.state;
-    const { idCounter, newExpense } = this.props;
+    const { value, description, currency, method, tag, botaoDinamico } = this.state;
+    const { idCounter, newExpense, editTest } = this.props;
 
     const expenses = {
       id: idCounter,
@@ -53,9 +72,14 @@ class WalletForm extends Component {
       currency,
       method,
       tag,
+      botaoDinamico: 'Adicionar despesa',
     };
 
-    newExpense(expenses);
+    if (botaoDinamico === 'Adicionar despesa') {
+      newExpense(expenses);
+    } else {
+      editTest(expenses);
+    }
 
     this.setState(this.expenseObj);
   }
@@ -145,7 +169,7 @@ class WalletForm extends Component {
           type="button"
           onClick={ this.handleSubmit }
         >
-          Adicionar despesa
+          {this.state.botaoDinamico}
         </Button>
       </Form>
     );
@@ -153,7 +177,7 @@ class WalletForm extends Component {
 }
 
 WalletForm.propTypes = {
-  // idCounter: PropTypes.number.isRequired,
+  idToEdit: PropTypes.number.isRequired,
   saveCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
   idCounter: PropTypes.number.isRequired,
@@ -163,14 +187,19 @@ WalletForm.propTypes = {
 const mapDispatchToProps = (dispatch) => ({
   newExpense: (payload) => dispatch(getExpense(payload)),
   saveCurrencies: (payload) => dispatch(addCurrencies(payload)),
+  editTest: (payload) => dispatch(editFinaly(payload)),
 });
 
 const mapStateToProps = ({ wallet: {
+  idToEdit,
   idCounter,
   currencies,
+  expenses,
 } }) => ({
   idCounter,
   currencies,
+  idToEdit,
+  expenses,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WalletForm);

@@ -2,6 +2,8 @@ export const USER_LOG = 'USER_LOG';
 export const SAVE_EXPENSE = 'SAVE_EXPENSE';
 export const REMOVE_EXPENSE = 'REMOVE_EXPENSE';
 export const ADD_CURRENCY = 'ADD_CURRENCY';
+export const EDIT_EXPENSES = 'EDIT_EXPENSES';
+export const EDIT_FINALY = 'EDIT_FINALY';
 
 export const addCurrencies = (payload) => ({
   type: ADD_CURRENCY,
@@ -20,6 +22,16 @@ export const saveExpense = (payload) => ({
 
 export const userLog = (payload) => ({
   type: USER_LOG,
+  payload,
+});
+
+export const editExpenses = (id) => ({
+  type: EDIT_EXPENSES,
+  id,
+});
+
+export const editFinaly = (payload) => ({
+  type: EDIT_FINALY,
   payload,
 });
 
