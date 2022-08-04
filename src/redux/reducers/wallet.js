@@ -32,10 +32,9 @@ const wallet = (state = INITIAL_STATE, { type, payload, id }) => {
       idToEdit: id,
     };
   case EDIT_FINALY:
-    console.log(state.expenses);
     return {
       ...state,
-      expenses: [...expenses, expenses[payload]],
+      expenses: [...payload],
     };
   default:
     return state;

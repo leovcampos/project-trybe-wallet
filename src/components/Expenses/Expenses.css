@@ -1,5 +1,5 @@
 table {
-  border-spacing: 0;
+  border-spacing: 1px;
   width: 100%;
 }
 
@@ -8,7 +8,37 @@ thead {
   color: white;
 }
 
+tbody {
+  background-color: rgba(43, 33, 24, 0.288);
+  color: black;
+}
+
 th {
-  font-size: 12px;
+  font-size: 14px;
   padding: 5px;
+}
+
+th:nth-child( 1 ) {
+  width: 192px;
+}
+
+th:nth-child( 2 ) {
+  width: 85px;
+}
+
+th:nth-child( 3 ) {
+  width: 150px;
+}
+
+
+td {
+  font-size: 14px;
+  padding: 8px 0;
+  text-align: center;
+}
+
+td:nth-child( 9 ) {
+  display: flex;
+  justify-content: space-around;
+  padding: 2px 20px;
 }

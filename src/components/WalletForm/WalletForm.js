@@ -19,7 +19,7 @@ class WalletForm extends Component {
       currency: 'USD',
       method: 'Dinheiro',
       tag: 'Alimentação',
-      botaoDinamico: 'Adicionar despesa',
+      dinamicButton: 'Adicionar despesa',
     };
 
     this.state = this.expenseObj;
@@ -50,7 +50,7 @@ class WalletForm extends Component {
       currency: expenses[id].currency,
       method: expenses[id].method,
       tag: expenses[id].tag,
-      botaoDinamico: 'Editar despesa',
+      dinamicButton: 'Editar despesa',
     });
   }
 
@@ -62,22 +62,29 @@ class WalletForm extends Component {
   }
 
   handleSubmit = () => {
-    const { value, description, currency, method, tag, botaoDinamico } = this.state;
-    const { idCounter, newExpense, editTest } = this.props;
+    const { value, description, currency, method, tag, dinamicButton } = this.state;
+    // const { dinamicButton } = this.state;
+    const { newExpense, editTest, expenses, idToEdit, idCounter } = this.props;
+    const buttonName = 'Adicionar despesa';
 
-    const expenses = {
+    const expense = {
       id: idCounter,
       value,
       description,
       currency,
       method,
       tag,
-      botaoDinamico: 'Adicionar despesa',
     };
 
-    if (botaoDinamico === 'Adicionar despesa') {
-      newExpense(expenses);
+    if (dinamicButton === buttonName) {
+      newExpense(expense);
     } else {
+      expenses[idToEdit] = { ...expenses[idToEdit],
+        value,
+        description,
+        currency,
+        method,
+        tag };
       editTest(expenses);
     }
 
@@ -85,7 +92,7 @@ class WalletForm extends Component {
   }
 
   render() {
-    const { value, description, currency, method, tag } = this.state;
+    const { value, description, currency, method, tag, dinamicButton } = this.state;
     const { currencies } = this.props;
     return (
       <Form>
@@ -169,7 +176,7 @@ class WalletForm extends Component {
           type="button"
           onClick={ this.handleSubmit }
         >
-          {this.state.botaoDinamico}
+          { dinamicButton }
         </Button>
       </Form>
     );
@@ -177,11 +184,16 @@ class WalletForm extends Component {
 }
 
 WalletForm.propTypes = {
-  idToEdit: PropTypes.number.isRequired,
+  idToEdit: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   saveCurrencies: PropTypes.func.isRequired,
   currencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+  expenses: PropTypes.arrayOf(PropTypes.object).isRequired,
   idCounter: PropTypes.number.isRequired,
   newExpense: PropTypes.func.isRequired,
+  editTest: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
