@@ -23,18 +23,14 @@ class Login extends React.Component {
     const regex = /^\w+([/.-]?\w+)*@\w+([/.-]?\w+)*(\.\w{2,3})+$/;
     const { email } = this.state;
 
-    if (regex.test(email)) return true;
-    return false;
-  };
+    return !!regex.test(email);
+  }
 
   validatePassword = () => {
     const { password } = this.state;
     const passwordLength = 6;
-    if (password.length >= passwordLength) {
-      return true;
-    }
-    return false;
-  }
+    return password.length >= passwordLength;
+  };
 
   handleChange = ({ target }) => {
     const { name, value } = target;
