@@ -43,7 +43,6 @@ class WalletForm extends Component {
 
   editState = (id) => {
     const { expenses } = this.props;
-    console.log(expenses[id]);
     this.setState({
       value: expenses[id].value,
       description: expenses[id].description,
@@ -63,7 +62,6 @@ class WalletForm extends Component {
 
   handleSubmit = () => {
     const { value, description, currency, method, tag, dinamicButton } = this.state;
-    // const { dinamicButton } = this.state;
     const { newExpense, editTest, expenses, idToEdit, idCounter } = this.props;
     const buttonName = 'Adicionar despesa';
 
